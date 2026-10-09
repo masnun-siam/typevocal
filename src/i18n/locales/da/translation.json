@@ -632,11 +632,6 @@
         "description": "Se kildekode og bidrag",
         "button": "Vis på GitHub"
       },
-      "supportDevelopment": {
-        "title": "Støt udviklingen",
-        "description": "Hjælp os med at fortsætte udviklingen af Handy",
-        "button": "Donér"
-      },
       "acknowledgments": {
         "title": "Anerkendelser",
         "ggml": {

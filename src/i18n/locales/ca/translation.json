@@ -632,11 +632,6 @@
         "description": "Consulta el codi font i col·laboreu-hi",
         "button": "Mostra al GitHub"
       },
-      "supportDevelopment": {
-        "title": "Dona suport al desenvolupament",
-        "description": "Ajudeu-nos a continuar desenvolupant el Handy",
-        "button": "Feu una donació"
-      },
       "acknowledgments": {
         "title": "Agraïments",
         "ggml": {
