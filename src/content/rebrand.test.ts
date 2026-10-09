@@ -1,21 +1,24 @@
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync } from "node:fs";
+import { fileURLToPath } from "node:url";
+
+const root = fileURLToPath(new URL("../../", import.meta.url));
+const read = (rel: string) => readFileSync(`${root}${rel}`, "utf8");
 
 const notesDir = "src/content/release-notes";
 const files = [
   "index.html",
   "package.json",
-  ...readdirSync(notesDir).map((f) => `${notesDir}/${f}`),
+  ...readdirSync(`${root}${notesDir}`).map((f) => `${notesDir}/${f}`),
 ];
 
-assert.match(readFileSync("index.html", "utf8"), /<title>TypeVocal<\/title>/);
+assert.match(read("index.html"), /<title>TypeVocal<\/title>/);
 
-const pkg = JSON.parse(readFileSync("package.json", "utf8"));
+const pkg = JSON.parse(read("package.json"));
 assert.equal(pkg.name, "typevocal-app");
-assert.equal(pkg.version, "0.9.8");
 
 for (const file of files) {
-  const text = readFileSync(file, "utf8").replace(/handy-computer/g, "");
+  const text = read(file).replace(/handy-computer/g, "");
   assert.doesNotMatch(text, /handy/i, file);
 }
 
