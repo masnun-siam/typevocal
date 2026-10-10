@@ -26,6 +26,12 @@ const manifest = {
   },
 };
 
+// the fallback points at this fork's releases page
+assert.equal(
+  PORTABLE_RELEASES_URL,
+  "https://github.com/masnun-siam/typevocal/releases/latest",
+);
+
 // x64 Windows -> the x64 NSIS asset, pinned to the release tag
 assert.equal(
   resolvePortableInstallerUrl(manifest, "windows", "x86_64"),
