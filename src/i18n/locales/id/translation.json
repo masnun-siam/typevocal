@@ -632,11 +632,6 @@
         "description": "Lihat kode sumber dan berkontribusi",
         "button": "Lihat di GitHub"
       },
-      "supportDevelopment": {
-        "title": "Dukung Pengembangan",
-        "description": "Bantu kami terus mengembangkan Handy",
-        "button": "Donasi"
-      },
       "acknowledgments": {
         "title": "Ucapan Terima Kasih",
         "ggml": {
