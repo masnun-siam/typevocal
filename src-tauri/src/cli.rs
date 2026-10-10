@@ -2,7 +2,7 @@ use clap::Parser;
 use std::path::PathBuf;
 
 #[derive(Parser, Debug, Clone, Default)]
-#[command(name = "handy", about = "Handy - Speech to Text")]
+#[command(name = "typevocal", about = "TypeVocal - Speech to Text")]
 pub struct CliArgs {
     /// Start with the main window hidden
     #[arg(long)]
@@ -60,4 +60,20 @@ pub struct CliArgs {
     /// Emit --transcribe-file results as JSON.
     #[arg(long)]
     pub json: bool,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::CliArgs;
+    use clap::CommandFactory;
+
+    #[test]
+    fn command_is_branded_typevocal() {
+        let cmd = CliArgs::command();
+        assert_eq!(cmd.get_name(), "typevocal");
+        assert_eq!(
+            cmd.get_about().map(|a| a.to_string()).as_deref(),
+            Some("TypeVocal - Speech to Text")
+        );
+    }
 }

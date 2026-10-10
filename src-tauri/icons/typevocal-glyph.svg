@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>TypeVocal glyph (Android adaptive foreground)</title>
+  <!-- Same glyph as typevocal.svg without the tile, scaled 0.7 about the centre so every
+       point stays inside the 66dp-diameter adaptive-icon safe circle (tauri icon ignores android_fg_scale for SVG). -->
+  <g transform="translate(512 512) scale(0.7) translate(-512 -512)">
+    <g stroke="#FFFFFF" stroke-width="128" stroke-linecap="round">
+      <line x1="256" y1="384" x2="256" y2="640"/>
+      <line x1="512" y1="320" x2="512" y2="704"/>
+    </g>
+    <line x1="768" y1="256" x2="768" y2="768" stroke="#FBBF24" stroke-width="128" stroke-linecap="round"/>
+  </g>
+</svg>

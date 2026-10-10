@@ -632,11 +632,6 @@
         "description": "सोर्स कोड देखें और योगदान दें",
         "button": "GitHub पर देखें"
       },
-      "supportDevelopment": {
-        "title": "डेवलपमेंट में सहयोग करें",
-        "description": "Handy को आगे बढ़ाने में हमारी मदद करें",
-        "button": "दान करें"
-      },
       "acknowledgments": {
         "title": "आभार",
         "ggml": {

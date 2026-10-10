@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <title>TypeVocal</title>
+  <!-- macOS icon grid: 832px tile inset 96px. Two waveform bars rising into a text cursor.
+       Bars are 2px wide with 2px gaps and edges on whole pixels of a 16px render. -->
+  <rect x="96" y="96" width="832" height="832" rx="188" fill="#4F46E5"/>
+  <g stroke="#FFFFFF" stroke-width="128" stroke-linecap="round">
+    <line x1="256" y1="384" x2="256" y2="640"/>
+    <line x1="512" y1="320" x2="512" y2="704"/>
+  </g>
+  <line x1="768" y1="256" x2="768" y2="768" stroke="#FBBF24" stroke-width="128" stroke-linecap="round"/>
+</svg>

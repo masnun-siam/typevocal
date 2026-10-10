@@ -282,6 +282,20 @@ If the transcription is correct in **History** but Handy inserts text you copied
 
 If the problem persists, add your Handy version, operating system, receiving application, paste method, Reliable Paste setting, and before/after delays to the existing issue. Redact private dictated text before sharing logs.
 
+### Keyboard Shortcuts Stop Working on macOS (Secure Input)
+
+If Handy shows a Secure Input warning, or the shortcut recorder reports that it is blocked, macOS Secure Input is on. While it is on, key events never reach Handy's keyboard listener, so keyed shortcuts silently stop firing. Common causes:
+
+- A focused password field in any app.
+- Terminal's **Secure Keyboard Entry** option (Terminal > Secure Keyboard Entry).
+- A stuck `loginwindow` process holding Secure Input after a lock screen or login.
+
+To fix it:
+
+1. If the warning names an app, switch to it, leave the password field, or quit it.
+2. If Terminal is the culprit, turn off **Secure Keyboard Entry** in its menu.
+3. If no app is named, lock and unlock your Mac. If shortcuts still do not work, log out and back in.
+
 ### Manual Model Installation (For Proxy Users or Network Restrictions)
 
 If you're behind a proxy, firewall, or in a restricted network environment where Handy cannot download models automatically, you can manually download and install them. The URLs are publicly accessible from any browser.
