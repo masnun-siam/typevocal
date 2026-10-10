@@ -1126,3 +1126,51 @@ pub fn run(cli_args: CliArgs) {
         _ => {}
     });
 }
+
+#[cfg(test)]
+mod bundle_identity_tests {
+    const TAURI_CONF: &str = include_str!("../tauri.conf.json");
+    const BUILD_WORKFLOW: &str = include_str!("../../.github/workflows/build.yml");
+
+    fn conf() -> serde_json::Value {
+        serde_json::from_str(TAURI_CONF).expect("tauri.conf.json parses")
+    }
+
+    #[test]
+    fn product_name_and_identifier_are_typevocal() {
+        let conf = conf();
+        assert_eq!(conf["productName"], "TypeVocal");
+        assert_eq!(conf["identifier"], "com.masnunsiam.typevocal");
+    }
+
+    #[test]
+    fn linux_packages_install_libs_under_typevocal() {
+        let conf = conf();
+        for kind in ["deb", "rpm"] {
+            let files = conf["bundle"]["linux"][kind]["files"]
+                .as_object()
+                .unwrap_or_else(|| panic!("{kind} files"));
+            assert!(files.contains_key("/usr/lib/TypeVocal"), "{kind}: {files:?}");
+            assert!(!files.contains_key("/usr/lib/Handy"), "{kind}: {files:?}");
+        }
+    }
+
+    #[test]
+    fn windows_has_no_upstream_sign_command() {
+        assert!(conf()["bundle"]["windows"].get("signCommand").is_none());
+    }
+
+    #[test]
+    fn build_workflow_uses_typevocal_artifact_paths() {
+        for stale in [
+            "usr/bin/handy",
+            "usr/lib/Handy",
+            "Handy.AppImage",
+            "handy.exe",
+            "MacOS/handy",
+        ] {
+            assert!(!BUILD_WORKFLOW.contains(stale), "stale reference: {stale}");
+        }
+        assert!(BUILD_WORKFLOW.contains("default: \"typevocal\""));
+    }
+}
