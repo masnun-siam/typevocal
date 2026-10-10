@@ -1,7 +1,7 @@
 [package]
 name = "typevocal"
 version = "0.9.8"
-description = "Handy"
+description = "TypeVocal"
 authors = ["cjpais"]
 edition = "2021"
 license = "MIT"
