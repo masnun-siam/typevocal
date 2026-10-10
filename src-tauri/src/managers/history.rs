@@ -10,6 +10,11 @@ use std::path::PathBuf;
 use tauri::AppHandle;
 use tauri_specta::Event;
 
+/// File name for a recording saved at unix timestamp `ts`.
+pub fn recording_file_name(ts: i64) -> String {
+    format!("typevocal-{}.wav", ts)
+}
+
 /// Database migrations for transcription history.
 /// Each migration is applied in order. The library tracks which migrations
 /// have been applied using SQLite's user_version pragma.
@@ -691,7 +696,7 @@ mod tests {
                 post_process_requested
             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
             params![
-                format!("handy-{}.wav", timestamp),
+                recording_file_name(timestamp),
                 timestamp,
                 false,
                 format!("Recording {}", timestamp),
