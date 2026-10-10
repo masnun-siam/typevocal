@@ -200,4 +200,23 @@ mod tests {
         }
         std::env::remove_var("HANDY_TEST_FLAG_FALSY");
     }
+
+    // The env var names read by main.rs/lib.rs/actions.rs are source literals
+    // (platform-gated), so pin them by inspecting the sources.
+    #[test]
+    fn startup_and_debug_env_vars_use_typevocal_prefix() {
+        let old = concat!("HANDY", "_");
+        let srcs = [
+            ("main.rs", include_str!("main.rs")),
+            ("lib.rs", include_str!("lib.rs")),
+            ("actions.rs", include_str!("actions.rs")),
+        ];
+        for (name, src) in srcs {
+            assert!(!src.contains(old), "{name} still has an old env var name");
+        }
+        assert!(include_str!("main.rs").contains("\"TYPEVOCAL_KEEP_VULKAN_IMPLICIT_LAYERS\""));
+        assert!(include_str!("lib.rs").contains("\"TYPEVOCAL_METAL_RESIDENCY\""));
+        assert!(include_str!("lib.rs").contains("\"TYPEVOCAL_KEEP_VULKAN_IMPLICIT_LAYERS\""));
+        assert!(include_str!("actions.rs").contains("\"TYPEVOCAL_DEBUG_MIC_READY_DELAY_MS\""));
+    }
 }
