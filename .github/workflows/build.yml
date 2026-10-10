@@ -660,8 +660,14 @@ jobs:
             if [ -n "$vulkan_icd" ]; then
               export VK_ICD_FILENAMES="$vulkan_icd"
             fi
+            # The private lib dir is deliberately not on LD_LIBRARY_PATH below:
+            # the binary must find it through its own RUNPATH.
+            readelf -d "${root}/usr/bin/typevocal" | grep -Eq 'RUNPATH.*\$ORIGIN/\.\./lib/TypeVocal' || {
+              echo "ERROR: typevocal RUNPATH lacks \$ORIGIN/../lib/TypeVocal" >&2
+              exit 1
+            }
             HANDY_NO_GTK_LAYER_SHELL=1 \
-            LD_LIBRARY_PATH="${root}/usr/lib/TypeVocal:${root}/usr/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}" \
+            LD_LIBRARY_PATH="${root}/usr/lib${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}" \
               xvfb-run -a "${root}/usr/bin/typevocal" --list-devices \
                 >/tmp/typevocal-package-smoke.log 2>&1
             echo "${label} --list-devices smoke passed"

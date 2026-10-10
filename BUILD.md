@@ -118,7 +118,7 @@ This compiles a release binary and generates platform-specific bundles (deb, rpm
 
 ## Linux Install (from source)
 
-The raw binary (`src-tauri/target/release/handy`) cannot run standalone — it needs Tauri resource files (tray icons, sounds, VAD model) to be co-located at the expected path.
+The raw binary (`src-tauri/target/release/typevocal`) cannot run standalone — it needs Tauri resource files (tray icons, sounds, VAD model) to be co-located at the expected path.
 
 **Install from the deb bundle** (works on any Linux distro):
 
@@ -126,7 +126,7 @@ The raw binary (`src-tauri/target/release/handy`) cannot run standalone — it n
 cd /tmp
 ar x /path/to/Handy/src-tauri/target/release/bundle/deb/Handy_*_amd64.deb data.tar.gz
 tar xzf data.tar.gz
-sudo cp usr/bin/handy /usr/bin/
+sudo cp usr/bin/typevocal /usr/bin/
 sudo cp -a usr/lib/. /usr/lib/
 sudo cp -r usr/share/icons/hicolor/* /usr/share/icons/hicolor/
 sudo cp usr/share/applications/Handy.desktop /usr/share/applications/
@@ -137,7 +137,7 @@ The runtime libraries live in the app-private `/usr/lib/TypeVocal/` (on the bina
 After subsequent rebuilds, copy the binary and any refreshed runtime libraries:
 
 ```bash
-sudo cp src-tauri/target/release/handy /usr/bin/
+sudo cp src-tauri/target/release/typevocal /usr/bin/
 sudo mkdir -p /usr/lib/TypeVocal
 sudo cp -a src-tauri/transcribe-libs/. /usr/lib/TypeVocal/
 ```

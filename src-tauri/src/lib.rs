@@ -1130,6 +1130,7 @@ pub fn run(cli_args: CliArgs) {
 #[cfg(test)]
 mod bundle_identity_tests {
     const TAURI_CONF: &str = include_str!("../tauri.conf.json");
+    const BUILD_RS: &str = include_str!("../build.rs");
     const BUILD_WORKFLOW: &str = include_str!("../../.github/workflows/build.yml");
 
     fn conf() -> serde_json::Value {
@@ -1150,9 +1151,24 @@ mod bundle_identity_tests {
             let files = conf["bundle"]["linux"][kind]["files"]
                 .as_object()
                 .unwrap_or_else(|| panic!("{kind} files"));
-            assert!(files.contains_key("/usr/lib/TypeVocal"), "{kind}: {files:?}");
+            assert!(
+                files.contains_key("/usr/lib/TypeVocal"),
+                "{kind}: {files:?}"
+            );
             assert!(!files.contains_key("/usr/lib/Handy"), "{kind}: {files:?}");
         }
+    }
+
+    #[test]
+    fn linux_rpath_matches_package_lib_dir() {
+        let conf = conf();
+        let dir = conf["bundle"]["linux"]["deb"]["files"]
+            .as_object()
+            .and_then(|f| f.keys().next())
+            .expect("deb lib dir")
+            .trim_start_matches("/usr");
+        let rpath = format!("$ORIGIN/..{dir}");
+        assert!(BUILD_RS.contains(&rpath), "build.rs rpath missing {rpath}");
     }
 
     #[test]
