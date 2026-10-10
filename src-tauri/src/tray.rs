@@ -445,9 +445,9 @@ pub fn tray_tooltip() -> String {
 
 fn version_label() -> String {
     if cfg!(debug_assertions) {
-        format!("Handy v{} (Dev)", env!("CARGO_PKG_VERSION"))
+        format!("TypeVocal v{} (Dev)", env!("CARGO_PKG_VERSION"))
     } else {
-        format!("Handy v{}", env!("CARGO_PKG_VERSION"))
+        format!("TypeVocal v{}", env!("CARGO_PKG_VERSION"))
     }
 }
 
@@ -682,7 +682,7 @@ mod tests {
     fn build_entry(transcription: &str, post_processed: Option<&str>) -> HistoryEntry {
         HistoryEntry {
             id: 1,
-            file_name: "handy-1.wav".to_string(),
+            file_name: "typevocal-1.wav".to_string(),
             timestamp: 0,
             saved: false,
             title: "Recording".to_string(),
