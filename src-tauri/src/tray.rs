@@ -668,8 +668,16 @@ pub fn copy_last_transcript(app: &AppHandle) {
 
 #[cfg(test)]
 mod tests {
-    use super::{last_transcript_text, load_tray_icon, MenuInputs, TrayDesired, TrayIconState};
+    use super::{
+        last_transcript_text, load_tray_icon, version_label, MenuInputs, TrayDesired, TrayIconState,
+    };
     use crate::managers::history::HistoryEntry;
+
+    #[test]
+    fn version_label_uses_typevocal_brand() {
+        let label = version_label();
+        assert!(label.starts_with(&format!("TypeVocal v{}", env!("CARGO_PKG_VERSION"))));
+    }
 
     fn build_entry(transcription: &str, post_processed: Option<&str>) -> HistoryEntry {
         HistoryEntry {
