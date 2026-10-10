@@ -23,8 +23,9 @@ assert.match(mark, /height\??: number \| string/);
 assert.match(mark, /export default/);
 
 // Text logo: wordmark with accessible name and HandyTextLogo's props
-assert.match(logo, />\s*TypeVocal\s*</);
-assert.match(logo, /aria-label|<title>/);
+assert.match(logo, /BRAND = "TypeVocal"/);
+assert.match(logo, /\{BRAND\}\s*<\/text>/);
+assert.match(logo, /aria-label=\{BRAND\}|<title>/);
 assert.match(logo, /className/);
 assert.match(logo, /export default/);
 
