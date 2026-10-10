@@ -654,6 +654,11 @@ mod tests {
     use super::*;
     use rusqlite::{params, Connection};
 
+    #[test]
+    fn recording_file_name_uses_typevocal_prefix() {
+        assert_eq!(recording_file_name(1700000000), "typevocal-1700000000.wav");
+    }
+
     fn setup_conn() -> Connection {
         let conn = Connection::open_in_memory().expect("open in-memory db");
         conn.execute_batch(
