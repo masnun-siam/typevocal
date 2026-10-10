@@ -512,6 +512,19 @@ jobs:
           chmod +x "$tools_dir/linuxdeploy-${arch}.AppImage"
           "$tools_dir/linuxdeploy-${arch}.AppImage" --appimage-extract-and-run --version
 
+      # createUpdaterArtifacts is on, so a missing updater key must stop the
+      # build here instead of surfacing as an obscure tauri-action failure.
+      - name: Require updater signing key
+        if: inputs.sign-binaries
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+        run: |
+          if [ -z "$TAURI_SIGNING_PRIVATE_KEY" ]; then
+            echo "::error::TAURI_SIGNING_PRIVATE_KEY secret is not set"
+            exit 1
+          fi
+
       - name: Build with Tauri
         uses: tauri-apps/tauri-action@v0
         env:
