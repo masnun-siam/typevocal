@@ -5,7 +5,8 @@ import { openUrl } from "@tauri-apps/plugin-opener";
 import { ExternalLink, TriangleAlert, X } from "lucide-react";
 import { commands, type SecureInputStatus } from "@/bindings";
 
-// Detailed remediation steps live in the README rather than in the banner
+// Points at the README Troubleshooting section, which has the Secure Input
+// remediation steps, rather than repeating them in the banner
 export const SECURE_INPUT_HELP_URL =
   "https://github.com/masnun-siam/typevocal#troubleshooting";
 

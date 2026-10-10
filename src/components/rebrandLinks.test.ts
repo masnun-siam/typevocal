@@ -16,6 +16,7 @@ assert.match(
 // About page has no donate control and links to this repo
 const about = read("src/components/settings/about/AboutSettings.tsx");
 assert.doesNotMatch(about, /donate/i);
+// Split literal so the AC3 rg sweep for the upstream domain does not match this file
 assert.ok(!about.includes("handy" + ".computer"));
 assert.ok(
   about.includes('openUrl("https://github.com/masnun-siam/typevocal")'),
