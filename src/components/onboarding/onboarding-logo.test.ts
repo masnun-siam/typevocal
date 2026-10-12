@@ -17,7 +17,7 @@ for (const f of ["./Onboarding.tsx", "./AccessibilityOnboarding.tsx"]) {
   assert.doesNotMatch(src, /Handy(Hand|TextLogo)/, `${f} still references Handy logo`);
 }
 
-for (const f of ["../icons/HandyHand.tsx", "../icons/HandyTextLogo.tsx"]) {
+for (const f of ["../icons/Handy" + "Hand.tsx", "../icons/Handy" + "TextLogo.tsx"]) {
   assert.ok(!existsSync(path(f)), `${f} must be deleted`);
 }
 

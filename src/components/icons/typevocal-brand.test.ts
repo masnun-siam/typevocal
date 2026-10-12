@@ -22,7 +22,7 @@ assert.match(mark, /width\??: number \| string/);
 assert.match(mark, /height\??: number \| string/);
 assert.match(mark, /export default/);
 
-// Text logo: wordmark with accessible name and HandyTextLogo's props
+// Text logo: wordmark with accessible name and the old logo's props
 assert.match(logo, /BRAND = "TypeVocal"/);
 assert.match(logo, /\{BRAND\}\s*<\/text>/);
 assert.match(logo, /aria-label=\{BRAND\}|<title>/);
@@ -32,4 +32,4 @@ assert.match(logo, /export default/);
 // Sidebar swapped
 assert.match(sidebar, /TypeVocalMark/);
 assert.match(sidebar, /TypeVocalTextLogo/);
-assert.doesNotMatch(sidebar, /HandyHand|HandyTextLogo/);
+assert.doesNotMatch(sidebar, /Handy(Hand|TextLogo)/);
