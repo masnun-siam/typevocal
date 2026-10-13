@@ -212,7 +212,7 @@ impl HistoryManager {
 
     /// File name for a recording captured at the given Unix timestamp.
     pub fn recording_file_name(timestamp: i64) -> String {
-        format!("handy-{}.wav", timestamp)
+        format!("typevocal-{}.wav", timestamp)
     }
 
     pub fn recordings_dir(&self) -> &std::path::Path {
