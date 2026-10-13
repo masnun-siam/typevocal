@@ -1282,6 +1282,16 @@ mod tests {
     use super::*;
 
     #[test]
+    fn updater_lock_reads_typevocal_name_only() {
+        // IS_UPDATER_DISABLED is a OnceLock, so this is the only test that
+        // may touch it: the first read in the process decides the value.
+        std::env::remove_var("HANDY_DISABLE_UPDATER");
+        std::env::set_var("TYPEVOCAL_DISABLE_UPDATER", "1");
+        assert!(update_checks_forced_disabled());
+        assert!(!update_checks_effectively_enabled(&get_default_settings()));
+    }
+
+    #[test]
     fn stored_binding_returns_the_requested_binding() {
         let settings = get_default_settings();
 
