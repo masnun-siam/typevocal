@@ -174,6 +174,31 @@ mod tests {
     use super::*;
 
     #[test]
+    fn gpu_and_window_env_vars_are_branded_typevocal() {
+        let sources = [
+            include_str!("lib.rs"),
+            include_str!("main.rs"),
+            include_str!("overlay.rs"),
+        ];
+        let old = "ha".to_string() + "ndy";
+        for src in sources {
+            for line in src.lines() {
+                let l = line.to_lowercase();
+                let allowed = l.contains(&format!("{old}_keys")) || line.contains("cjpais/Handy#");
+                assert!(!l.contains(&old) || allowed, "unbranded line: {line}");
+            }
+        }
+        let all = sources.concat();
+        for name in [
+            "TYPEVOCAL_METAL_RESIDENCY",
+            "TYPEVOCAL_KEEP_VULKAN_IMPLICIT_LAYERS",
+            "TYPEVOCAL_NO_GTK_LAYER_SHELL",
+        ] {
+            assert!(all.contains(name), "missing {name}");
+        }
+    }
+
+    #[test]
     fn arm64_native_machine_is_the_only_match() {
         assert!(native_machine_is_arm64(Some(IMAGE_FILE_MACHINE_ARM64)));
         assert!(!native_machine_is_arm64(Some(0x8664))); // AMD64
