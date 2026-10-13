@@ -564,6 +564,20 @@ mod tests {
         }
     }
 
+    #[test]
+    fn request_headers_identify_as_typevocal() {
+        let headers = build_headers(&provider("custom", "http://localhost"), "").unwrap();
+        assert_eq!(
+            headers.get(REFERER).unwrap(),
+            "https://github.com/masnun-siam/typevocal"
+        );
+        assert_eq!(
+            headers.get(USER_AGENT).unwrap(),
+            "TypeVocal/1.0 (+https://github.com/masnun-siam/typevocal)"
+        );
+        assert_eq!(headers.get("X-Title").unwrap(), "TypeVocal");
+    }
+
     fn request_json(reasoning: ReasoningParams) -> Value {
         let request = ChatCompletionRequest {
             model: "test-model".to_string(),
