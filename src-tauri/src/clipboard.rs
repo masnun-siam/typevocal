@@ -975,6 +975,22 @@ e.g. 28:1 28:0 means pressing on the Enter button on a standard US keyboard.
         assert!(restored.get());
     }
 
+    #[test]
+    fn rebranded_sources_carry_no_upstream_name() {
+        // Needle is built piecemeal so this test does not trip itself.
+        let needle = ["han", "dy"].concat();
+        for (file, src) in [
+            ("clipboard.rs", include_str!("clipboard.rs")),
+            ("commands/audio.rs", include_str!("commands/audio.rs")),
+            ("input.rs", include_str!("input.rs")),
+        ] {
+            assert!(
+                !src.to_lowercase().contains(&needle),
+                "{file} still mentions the upstream name"
+            );
+        }
+    }
+
     #[cfg(unix)]
     #[test]
     fn external_script_does_not_wait_for_inherited_stdio() {
