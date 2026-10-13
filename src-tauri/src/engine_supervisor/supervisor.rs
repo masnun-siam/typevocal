@@ -1485,6 +1485,32 @@ mod unit_tests {
 mod tests {
     use super::*;
 
+    /// Rebrand guard: no upstream name left in this file, and the renamed
+    /// env vars, marker and log text are present. Needles are built with
+    /// `concat!` so this test doesn't match itself.
+    #[test]
+    fn source_uses_typevocal_names() {
+        let src = include_str!("supervisor.rs");
+        assert!(
+            !src.to_lowercase().contains(concat!("han", "dy")),
+            "supervisor.rs still names the upstream product"
+        );
+        for needle in [
+            concat!("TYPEVOCAL_", "TRANSCRIBE_WORKER_EXE"),
+            concat!("TYPEVOCAL_", "TEST_MODEL"),
+            concat!("TYPEVOCAL_", "TEST_WAV"),
+            concat!("TYPEVOCAL_", "WORKER_FAULT_ONCE"),
+            concat!("TYPEVOCAL_", "WORKER_FAULT_GPU_ONLY"),
+            concat!("typevocal-", "worker-fault-once"),
+            concat!(
+                "TypeVocal was updated or moved while it was running; ",
+                "restart TypeVocal"
+            ),
+        ] {
+            assert!(src.contains(needle), "missing {needle}");
+        }
+    }
+
     fn env_path(name: &str) -> PathBuf {
         PathBuf::from(std::env::var_os(name).unwrap_or_else(|| panic!("set {name}")))
     }
