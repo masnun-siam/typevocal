@@ -1,7 +1,7 @@
 //! Process isolation for transcribe.cpp.
 //!
 //! All transcribe.cpp native code (backend init, device enumeration, model
-//! load, inference, streaming) runs in a child process: the Handy executable
+//! load, inference, streaming) runs in a child process: the TypeVocal executable
 //! re-launched with [`WORKER_FLAG`]. A GPU driver fault, `GGML_ASSERT` abort,
 //! or hang then kills only the worker.
 //!
@@ -36,7 +36,7 @@ pub use supervisor::{
 pub const WORKER_FLAG: &str = "--transcribe-worker";
 /// Worker argument: register only the CPU backends.
 const CPU_ONLY_FLAG: &str = "--cpu-only";
-const LOG_LEVEL_ENV: &str = "HANDY_TRANSCRIBE_WORKER_LOG";
+const LOG_LEVEL_ENV: &str = "TYPEVOCAL_TRANSCRIBE_WORKER_LOG";
 
 /// Whether this process was launched as a transcription worker. Checked in
 /// `main` before CLI parsing, Tauri, or single-instance handling.
@@ -49,4 +49,22 @@ pub fn is_worker_invocation() -> bool {
 /// Run the worker until the parent closes its stdin. Returns the exit code.
 pub fn run_worker() -> i32 {
     worker::run()
+}
+
+#[cfg(test)]
+mod rebrand_tests {
+    #[test]
+    fn worker_sources_use_typevocal_names() {
+        let old = ["han", "dy"].concat();
+        for (name, src) in [
+            ("worker.rs", include_str!("worker.rs")),
+            ("mod.rs", include_str!("mod.rs")),
+            ("protocol.rs", include_str!("protocol.rs")),
+        ] {
+            assert!(
+                !src.to_lowercase().contains(&old),
+                "{name} still mentions the old brand"
+            );
+        }
+    }
 }
