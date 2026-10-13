@@ -210,6 +210,11 @@ impl HistoryManager {
         })
     }
 
+    /// File name for a recording captured at the given Unix timestamp.
+    pub fn recording_file_name(timestamp: i64) -> String {
+        format!("handy-{}.wav", timestamp)
+    }
+
     pub fn recordings_dir(&self) -> &std::path::Path {
         &self.recordings_dir
     }
@@ -673,6 +678,14 @@ mod tests {
         conn
     }
 
+    #[test]
+    fn recording_file_name_uses_typevocal_prefix() {
+        assert_eq!(
+            HistoryManager::recording_file_name(123),
+            "typevocal-123.wav"
+        );
+    }
+
     fn insert_entry(conn: &Connection, timestamp: i64, text: &str, post_processed: Option<&str>) {
         conn.execute(
             "INSERT INTO transcription_history (
@@ -686,7 +699,7 @@ mod tests {
                 post_process_requested
             ) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8)",
             params![
-                format!("handy-{}.wav", timestamp),
+                HistoryManager::recording_file_name(timestamp),
                 timestamp,
                 false,
                 format!("Recording {}", timestamp),
