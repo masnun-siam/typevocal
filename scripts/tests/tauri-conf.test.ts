@@ -15,7 +15,10 @@ assert.deepEqual(Object.keys(deb.files), ["/usr/lib/TypeVocal"]);
 assert.deepEqual(Object.keys(rpm.files), ["/usr/lib/TypeVocal"]);
 
 // FR-6: unsigned Windows build, no upstream signing account
-assert.ok(!("signCommand" in (conf.bundle.windows ?? {})), "signCommand present");
+assert.ok(
+  !("signCommand" in (conf.bundle.windows ?? {})),
+  "signCommand present",
+);
 
 // FR-4: updater points at this repo with a visible placeholder key
 const { updater } = conf.plugins;
