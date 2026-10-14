@@ -340,7 +340,7 @@ fn detect_ydotool_key_syntax() -> YdotoolKeySyntax {
                     syntax
                 })
             } else {
-                // Preserve Handy's existing behavior and compatibility with current ydotool.
+                // Preserve TypeVocal's existing behavior and compatibility with current ydotool.
                 log::warn!(
                     "Could not recognize ydotool key --help output (exit status {:?}); using raw-keycode syntax",
                     output.status.code()
@@ -428,7 +428,7 @@ fn type_text_via_xdotool(text: &str) -> Result<(), String> {
     // `--clearmodifiers` restores the modifiers that were held when xdotool
     // started. If the user releases one while xdotool is typing, that synthetic
     // restore can leave the modifier latched on the XTEST keyboard (#1817).
-    // Release both sides of Handy's supported push-style modifiers to clear any
+    // Release both sides of TypeVocal's supported push-style modifiers to clear any
     // stale restore. Lock keys are intentionally excluded because key events
     // toggle them.
     //
@@ -975,6 +975,22 @@ e.g. 28:1 28:0 means pressing on the Enter button on a standard US keyboard.
         assert!(restored.get());
     }
 
+    #[test]
+    fn rebranded_sources_carry_no_upstream_name() {
+        // Needle is built piecemeal so this test does not trip itself.
+        let needle = ["han", "dy"].concat();
+        for (file, src) in [
+            ("clipboard.rs", include_str!("clipboard.rs")),
+            ("commands/audio.rs", include_str!("commands/audio.rs")),
+            ("input.rs", include_str!("input.rs")),
+        ] {
+            assert!(
+                !src.to_lowercase().contains(&needle),
+                "{file} still mentions the upstream name"
+            );
+        }
+    }
+
     #[cfg(unix)]
     #[test]
     fn external_script_does_not_wait_for_inherited_stdio() {
@@ -984,7 +1000,7 @@ e.g. 28:1 28:0 means pressing on the Enter button on a standard US keyboard.
         use std::thread;
 
         let script_path = std::env::temp_dir().join(format!(
-            "handy-external-script-{}-{}.sh",
+            "typevocal-external-script-{}-{}.sh",
             std::process::id(),
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)
