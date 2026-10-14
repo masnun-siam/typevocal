@@ -1,4 +1,4 @@
-//! Model capability probing — the seam between Handy's model UI and "what can
+//! Model capability probing — the seam between TypeVocal's model UI and "what can
 //! this GGUF actually do".
 //!
 //! Capabilities are canonical *in the GGUF itself*: transcribe-cpp reads them
@@ -68,7 +68,7 @@ const PROBE_KEYS: &[&str] = &[
     KEY_CAP_LANG_DETECT,
 ];
 
-/// How confident we are that Handy can run a given model, judged from its GGUF
+/// How confident we are that TypeVocal can run a given model, judged from its GGUF
 /// header alone (pre-download).
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize, Type)]
 #[serde(rename_all = "snake_case")]
@@ -266,5 +266,30 @@ mod tests {
             CapabilityProbe::from_metadata(&meta).verdict,
             Compatibility::MaybeIncompatible
         );
+    }
+
+    /// Issue #55: the upstream product name must not survive in these sources,
+    /// except in upstream hosting identifiers (org name, blob host).
+    #[test]
+    fn no_upstream_product_name_in_model_manager_sources() {
+        let name = ["han", "dy"].concat();
+        let allowed = [format!("{name}-computer"), format!("blob.{name}.computer")];
+        let files = [
+            ("gguf_meta.rs", include_str!("gguf_meta.rs")),
+            ("model.rs", include_str!("model.rs")),
+            (
+                "model_capabilities.rs",
+                include_str!("model_capabilities.rs"),
+            ),
+        ];
+        for (file, src) in files {
+            for (i, line) in src.lines().enumerate() {
+                let mut l = line.to_lowercase();
+                for a in &allowed {
+                    l = l.replace(a.as_str(), "");
+                }
+                assert!(!l.contains(&name), "{file}:{}: {line}", i + 1);
+            }
+        }
     }
 }
