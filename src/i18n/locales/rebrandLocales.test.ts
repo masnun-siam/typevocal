@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const locales = ["ar", "bg", "ca"];
+const locales = ["ar", "bg", "ca", "cs", "da", "de"];
 
 const collect = (node: unknown, path: string, out: [string, string][]) => {
   if (typeof node === "string") {
