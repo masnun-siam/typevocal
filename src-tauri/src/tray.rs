@@ -669,7 +669,8 @@ pub fn copy_last_transcript(app: &AppHandle) {
 #[cfg(test)]
 mod tests {
     use super::{
-        last_transcript_text, load_tray_icon, version_label, MenuInputs, TrayDesired, TrayIconState,
+        get_icon_path, last_transcript_text, load_tray_icon, version_label, AppTheme, MenuInputs,
+        TrayDesired, TrayIconState,
     };
     use crate::managers::history::HistoryEntry;
 
@@ -743,6 +744,27 @@ mod tests {
         };
         assert_ne!(recording.icon_path, transcribing.icon_path);
         assert_eq!(recording.menu, transcribing.menu);
+    }
+
+    #[test]
+    fn every_icon_state_resolves_to_an_existing_resource() {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+        for theme in [AppTheme::Dark, AppTheme::Light, AppTheme::Colored] {
+            for state in [
+                TrayIconState::Idle,
+                TrayIconState::Recording,
+                TrayIconState::Transcribing,
+            ] {
+                for warning in [false, true] {
+                    let rel = get_icon_path(theme.clone(), state, warning);
+                    assert!(!rel.contains("handy"), "{rel} is still named for the old brand");
+                    assert!(
+                        root.join(rel).is_file(),
+                        "{theme:?}/{state:?}/warning={warning} -> {rel} is missing"
+                    );
+                }
+            }
+        }
     }
 
     #[test]
