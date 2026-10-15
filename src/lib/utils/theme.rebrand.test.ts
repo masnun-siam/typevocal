@@ -12,10 +12,15 @@ assert.match(
   /export const THEME_STORAGE_KEY = "typevocal\.theme";/,
   "THEME_STORAGE_KEY must be typevocal.theme",
 );
-const storageCalls = theme.match(/localStorage\.(get|set|remove)Item\([^)]*\)/g) ?? [];
+const storageCalls =
+  theme.match(/localStorage\.(get|set|remove)Item\([^)]*\)/g) ?? [];
 assert.ok(storageCalls.length > 0, "theme.ts must touch localStorage");
 for (const call of storageCalls) {
-  assert.match(call, /\(THEME_STORAGE_KEY\b/, `reader must use the constant: ${call}`);
+  assert.match(
+    call,
+    /\(THEME_STORAGE_KEY\b/,
+    `reader must use the constant: ${call}`,
+  );
 }
 
 // FR-14: no leftover Handy naming in the theme/settings files.
