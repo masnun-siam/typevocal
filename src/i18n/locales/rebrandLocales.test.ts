@@ -2,22 +2,27 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const root = fileURLToPath(new URL("./", import.meta.url));
+const locales = ["ar", "bg", "ca", "cs", "da", "de"];
 
-const values = (node: unknown): string[] =>
-  typeof node === "string"
-    ? [node]
-    : node && typeof node === "object"
-      ? Object.values(node).flatMap(values)
-      : [];
+const collect = (node: unknown, path: string, out: [string, string][]) => {
+  if (typeof node === "string") {
+    out.push([path, node]);
+  } else if (node && typeof node === "object") {
+    for (const [key, value] of Object.entries(node)) {
+      collect(value, path ? `${path}.${key}` : key, out);
+    }
+  }
+};
 
-for (const lang of ["cs", "da", "de"]) {
-  const json = JSON.parse(
-    readFileSync(`${root}${lang}/translation.json`, "utf8"),
+for (const locale of locales) {
+  const file = fileURLToPath(
+    new URL(`./${locale}/translation.json`, import.meta.url),
   );
-  for (const v of values(json)) {
-    assert.doesNotMatch(v, /handy/i, `${lang}: ${v}`);
+  const values: [string, string][] = [];
+  collect(JSON.parse(readFileSync(file, "utf8")), "", values);
+  for (const [path, value] of values) {
+    assert.doesNotMatch(value, /handy/i, `${locale}: ${path}`);
   }
 }
 
-console.log("rebrand locales: all assertions passed");
+console.log("rebrandLocales: all assertions passed");
