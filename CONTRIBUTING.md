@@ -111,8 +111,6 @@ When creating a bug report, please include:
 - Screenshots or logs if applicable
 - Information from debug mode if relevant
 
-Use the [Bug Report template](.github/ISSUE_TEMPLATE/bug_report.md) when creating an issue.
-
 ## 💡 Suggesting Features
 
 Feature ideas are welcome.
