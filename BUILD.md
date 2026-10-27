@@ -14,8 +14,14 @@ This guide covers how to set up the development environment and build TypeVocal 
 
 #### macOS
 
-- Xcode Command Line Tools
-- Install with: `xcode-select --install`
+- Xcode Command Line Tools: `xcode-select --install`
+- [CMake](https://cmake.org/download/) on `PATH` (the `transcribe-cpp-sys` build runs it): `brew install cmake`
+- On an external drive that is not APFS (exFAT, FAT), macOS writes `._*` files next to every file and the tauri build fails reading them as config. Remove them from the sources and build on an APFS disk; the folder must be named `target`, or the app cannot find its resources in dev:
+
+  ```bash
+  dot_clean -m src src-tauri
+  CARGO_TARGET_DIR=~/.cache/typevocal/target bun run tauri dev
+  ```
 
 ##### Intel Mac (x86_64)
 

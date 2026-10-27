@@ -29,7 +29,7 @@ Usage beyond the basics (CLI flags, Linux setup, troubleshooting) is in the [doc
 
 ## Develop
 
-Prerequisites: [Rust](https://rustup.rs/) (stable), [Bun](https://bun.sh/), and the [Tauri prerequisites](https://tauri.app/start/prerequisites/) for your OS. Platform packages (Vulkan SDK, CMake, Linux libraries) are listed in [BUILD.md](BUILD.md).
+Prerequisites: [Rust](https://rustup.rs/) (stable), [Bun](https://bun.sh/), and the [Tauri prerequisites](https://tauri.app/start/prerequisites/) for your OS. CMake on every OS (`brew install cmake` on macOS). Platform packages (Vulkan SDK, Linux libraries) and the non-APFS drive workaround are in [BUILD.md](BUILD.md).
 
 ```bash
 git clone https://github.com/masnun-siam/typevocal.git
