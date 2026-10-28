@@ -65,7 +65,7 @@ sequenceDiagram
         W-->>EO: Transcript
     else cancel()
         TM->>EO: cancel() bypasses queue
-        EO->>W: kill; next use respawns + reloads
+        EO->>W: kill, next use respawns + reloads
         EO-->>TM: Err(Cancelled)
     end
     EO-->>TM: Transcript
