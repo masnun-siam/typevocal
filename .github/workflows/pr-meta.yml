@@ -1,0 +1,21 @@
+name: pr-meta
+
+# Runs on body/title edits too, without re-running code CI.
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+jobs:
+  references-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR body references an issue
+        env:
+          BODY: ${{ github.event.pull_request.body }}
+        run: |
+          if printf '%s' "$BODY" | grep -qE '#[0-9]+|github\.com/[^ ]+/issues/[0-9]+'; then
+            echo "ok"
+          else
+            echo "The PR body must reference its issue, e.g. 'Closes #123'." >&2
+            exit 1
+          fi

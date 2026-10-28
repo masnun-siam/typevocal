@@ -1,4 +1,21 @@
+# Install once per clone: pre-commit install (installs the pre-commit and pre-push hooks).
+# Doc-only commits (docs/, *.md outside src/) match no code hook below, so only the guards run.
+default_install_hook_types: [pre-commit, pre-push]
+default_stages: [pre-commit]
+
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: no-commit-to-branch
+        args: [--branch, main]
+      - id: check-merge-conflict
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
   - repo: local
     hooks:
       - id: claude-md-nested
@@ -14,3 +31,63 @@ repos:
         pass_filenames: false
         always_run: true
         verbose: true
+      - id: no-lint-suppressions
+        name: no lint or type suppressions
+        entry: scripts/agent/no-lint-suppressions.sh
+        language: script
+        pass_filenames: false
+        files: ^(src|src-tauri|scripts|tests)/
+
+      # Frontend
+      - id: eslint
+        name: eslint
+        entry: bun run lint
+        language: system
+        pass_filenames: false
+        files: ^src/.*\.(ts|tsx|js|jsx)$
+      - id: tsc
+        name: tsc --noEmit
+        entry: bunx tsc --noEmit
+        language: system
+        pass_filenames: false
+        files: ^(src|scripts|tests)/.*\.(ts|tsx)$|^tsconfig.*\.json$
+      - id: prettier
+        name: prettier --check
+        entry: bunx prettier --check --ignore-unknown
+        language: system
+        types: [text]
+        exclude: ^AGENTS\.md$
+      - id: unit-tests
+        name: bun unit tests
+        entry: scripts/run-unit-tests.sh
+        language: script
+        pass_filenames: false
+        files: ^(src|scripts|tests)/.*\.(ts|tsx|json)$|^README\.md$
+      - id: content-checks
+        name: translations and model languages
+        entry: bash -c 'bun run check:translations && bun run check:model-languages'
+        language: system
+        pass_filenames: false
+        files: ^src/i18n/|^src-tauri/src/catalog/
+
+      # Backend
+      - id: cargo-fmt
+        name: cargo fmt --check
+        entry: bash -c 'cd src-tauri && cargo fmt -- --check'
+        language: system
+        pass_filenames: false
+        files: ^src-tauri/.*\.rs$
+      - id: cargo-clippy
+        name: cargo clippy -D warnings
+        entry: bash -c 'cd src-tauri && cargo clippy --all-targets -- -D warnings'
+        language: system
+        pass_filenames: false
+        files: ^src-tauri/
+        stages: [pre-push]
+      - id: cargo-test
+        name: cargo test
+        entry: bash -c 'cd src-tauri && cargo test'
+        language: system
+        pass_filenames: false
+        files: ^src-tauri/
+        stages: [pre-push]
