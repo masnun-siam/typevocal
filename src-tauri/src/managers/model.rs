@@ -1434,7 +1434,7 @@ impl ModelManager {
                 let partial_path = self.models_dir.join(format!("{}.partial", model.filename));
                 let extracting_path = self
                     .models_dir
-                    .join(format!("{}.extracting", &model.filename));
+                    .join(format!("{}.extracting", model.filename));
 
                 // Clean up any leftover .extracting directories from interrupted extractions
                 // But only if this model is NOT currently being extracted
@@ -2315,7 +2315,7 @@ impl ModelManager {
             // Use a temporary extraction directory to ensure atomic operations
             let temp_extract_dir = self
                 .models_dir
-                .join(format!("{}.extracting", &model_info.filename));
+                .join(format!("{}.extracting", model_info.filename));
             let final_model_dir = self.models_dir.join(&model_info.filename);
 
             // Clean up any previous incomplete extraction
