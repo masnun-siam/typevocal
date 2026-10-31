@@ -27,9 +27,11 @@ assert.equal(existsSync(join(root, ".github/FUNDING.yml")), false);
 
 // No locale keeps the supportDevelopment strings
 const localesDir = join(root, "src/i18n/locales");
-const offenders = readdirSync(localesDir).filter((lang) =>
-  read(`src/i18n/locales/${lang}/translation.json`).includes(
-    "supportDevelopment",
-  ),
-);
+const offenders = readdirSync(localesDir)
+  .filter((lang) => !lang.endsWith(".ts"))
+  .filter((lang) =>
+    read(`src/i18n/locales/${lang}/translation.json`).includes(
+      "supportDevelopment",
+    ),
+  );
 assert.deepEqual(offenders, []);
