@@ -1,5 +1,5 @@
 {
-  description = "Handy - A free, open source, and extensible speech-to-text application that works completely offline";
+  description = "TypeVocal - A free, open source, and extensible speech-to-text application that works completely offline";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -86,8 +86,8 @@
           };
         in
         {
-          handy = pkgs.rustPlatform.buildRustPackage {
-            pname = "handy";
+          typevocal = pkgs.rustPlatform.buildRustPackage {
+            pname = "typevocal";
             inherit version;
             src = self;
 
@@ -172,20 +172,20 @@
                 # Self-update can't work against an immutable /nix/store install
                 # (downloadAndInstall would try to overwrite the store path), so
                 # the Nix-built package always disables the updater.
-                --set HANDY_DISABLE_UPDATER 1
+                --set TYPEVOCAL_DISABLE_UPDATER 1
               )
             '';
 
             meta = {
               description = "A free, open source, and extensible speech-to-text application that works completely offline";
-              homepage = "https://github.com/cjpais/Handy";
+              homepage = "https://github.com/masnun-siam/typevocal";
               license = lib.licenses.mit;
               mainProgram = "typevocal";
               platforms = supportedSystems;
             };
           };
 
-          default = self.packages.${system}.handy;
+          default = self.packages.${system}.typevocal;
         }
       );
 
@@ -194,7 +194,7 @@
         { lib, pkgs, ... }:
         {
           imports = [ ./nix/module.nix ];
-          programs.handy.package = lib.mkDefault self.packages.${pkgs.stdenv.hostPlatform.system}.handy;
+          programs.typevocal.package = lib.mkDefault self.packages.${pkgs.stdenv.hostPlatform.system}.typevocal;
         };
 
       # Home-manager module for per-user service
@@ -202,7 +202,7 @@
         { lib, pkgs, ... }:
         {
           imports = [ ./nix/hm-module.nix ];
-          services.handy.package = lib.mkDefault self.packages.${pkgs.stdenv.hostPlatform.system}.handy;
+          services.typevocal.package = lib.mkDefault self.packages.${pkgs.stdenv.hostPlatform.system}.typevocal;
         };
 
       # Development shell for building from source
@@ -242,7 +242,7 @@
             XDG_DATA_DIRS = "${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:${pkgs.hicolor-icon-theme}/share";
 
             shellHook = ''
-              echo "Handy development environment"
+              echo "TypeVocal development environment"
               bun install
               echo "Run 'bun run tauri dev' to start"
             '';
