@@ -78,4 +78,4 @@ New code: stateful and long-lived goes in a manager; a frontend entry point goes
 - Unit tests are inline `#[cfg(test)] mod tests` in the file under test (36 files), or a sibling `tests.rs` (`audio/recorder/tests.rs`, `model/download/tests.rs`). Integration tests: `src-tauri/tests/` (only `build_rs_rebrand.rs`).
 - Run `cd src-tauri && cargo test` (CI: `.github/workflows/test.yml`). Worker tests that need a real model are env-gated (`TYPEVOCAL_TEST_MODEL`, `TYPEVOCAL_TEST_WAV`; see `supervisor.rs` ~1481).
 - Format with `cargo fmt` (`src-tauri/rustfmt.toml` sets only `edition = "2021"`); `bun run format` runs it too.
-- Clippy is not run in CI (no workflow invokes it); run `cargo clippy` yourself before committing.
+- Clippy `-D warnings` runs in CI (`ci.yml` `backend`, Linux), in pre-push and in `make lint`; run it on macOS locally too, because CI covers only Linux.
