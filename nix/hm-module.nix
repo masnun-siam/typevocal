@@ -1,8 +1,8 @@
-# Home-manager module for Handy speech-to-text
+# Home-manager module for TypeVocal speech-to-text
 #
 # Provides a systemd user service for autostart.
-# Usage: imports = [ handy.homeManagerModules.default ];
-#        services.handy.enable = true;
+# Usage: imports = [ typevocal.homeManagerModules.default ];
+#        services.typevocal.enable = true;
 {
   config,
   lib,
@@ -10,23 +10,23 @@
   ...
 }:
 let
-  cfg = config.services.handy;
+  cfg = config.services.typevocal;
 in
 {
-  options.services.handy = {
-    enable = lib.mkEnableOption "Handy speech-to-text user service";
+  options.services.typevocal = {
+    enable = lib.mkEnableOption "TypeVocal speech-to-text user service";
 
     package = lib.mkOption {
       type = lib.types.package;
-      defaultText = lib.literalExpression "handy.packages.\${system}.handy";
-      description = "The Handy package to use.";
+      defaultText = lib.literalExpression "typevocal.packages.\${system}.typevocal";
+      description = "The TypeVocal package to use.";
     };
   };
 
   config = lib.mkIf cfg.enable {
-    systemd.user.services.handy = {
+    systemd.user.services.typevocal = {
       Unit = {
-        Description = "Handy speech-to-text";
+        Description = "TypeVocal speech-to-text";
         After = [ "graphical-session.target" ];
         PartOf = [ "graphical-session.target" ];
       };
