@@ -3,7 +3,19 @@ name: "Release"
 on: workflow_dispatch
 
 jobs:
+  require-updater-key:
+    runs-on: ubuntu-latest
+    env:
+      TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Require TypeVocal updater key
+        run: bash scripts/ci/require-updater-key.sh
+
   create-release:
+    needs: require-updater-key
     permissions:
       contents: write
     runs-on: ubuntu-latest
@@ -74,7 +86,7 @@ jobs:
       target: ${{ matrix.target }}
       build-args: ${{ matrix.args }}
       sign-binaries: true
-      asset-prefix: "handy"
+      asset-prefix: "typevocal"
       upload-artifacts: false
       release-id: ${{ needs.create-release.outputs.release-id }}
       # Releases always build from scratch — never restore the Rust cache, so a
