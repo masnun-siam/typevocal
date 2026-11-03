@@ -11,6 +11,8 @@ This file is the constitution for every AI agent working in this repository.
 
 TypeVocal is a cross-platform desktop speech-to-text app (macOS, Windows, Linux), a fork of Handy by CJ Pais. Audio is transcribed locally; models download from `blob.handy.computer`, updates come from this repo's GitHub releases, and optional LLM post-processing calls a user-configured provider.
 
+Environment variables use the `TYPEVOCAL_*` prefix (for example `TYPEVOCAL_DISABLE_UPDATER` turns the updater off).
+
 ## Architecture
 
 | Component        | Path                               | Tech                                                     | Role                                                                   |
